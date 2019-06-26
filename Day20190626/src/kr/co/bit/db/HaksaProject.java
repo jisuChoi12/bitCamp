@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
-//ªÏ∑¡¡‡...
+
 public class HaksaProject {
 
 	public static void main(String[] args) {
