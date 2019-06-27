@@ -8,7 +8,7 @@ public class CastingTest {
 		President president1 = new President();	
 //		자식객체가 부모객체에 들어감(UpCasting-축소)/암시적 형변환
 		Person person1 = president1;
-		//자식객체의 함수만 사용가능
+		//부모객체의 함수만 사용가능
 		person1.setAddr("");
 		person1.setAge(50);
 		person1.setName("김김김");
@@ -24,13 +24,13 @@ public class CastingTest {
 		president2.setName("이이이");
 		System.out.println(president2.toString());
 
-//		두번째
-//		Person 객체생성 (Person) 
-		Person person2 = new Person();
-//		객체끼리의 상속 불가능/런타임에러
-		President president3 = (President) person2;
-		president3.setNation("영국");
-		System.out.println(president3.getNation());
+////		두번째
+////		Person 객체생성 (Person) 
+//		Person person2 = new Person();
+////		객체끼리의 상속 불가능/런타임에러
+//		President president3 = (President) person2;
+//		president3.setNation("영국");
+//		System.out.println(president3.getNation());
 		
 //		첫번째 (한눈에 보이게)
 		President president4 = new President();

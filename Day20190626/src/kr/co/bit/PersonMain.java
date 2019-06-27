@@ -9,8 +9,8 @@ public class PersonMain {
 		Person person3 = new President();
 		
 		Person person4 = new Person();
-//		Student student = person4; 에러
-		Student student = (Student) person4; //런타임에러
+//		Student student = person4; 에러: 상위클래스의 객체를 생성한 후에는 downCasting 불가능
+//		Student student = (Student) person4; //런타임에러
 	}
 
 }

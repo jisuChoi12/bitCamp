@@ -23,6 +23,10 @@ public class Student extends Person {
 	public void setGrade(String grade) {
 		this.grade = grade;
 	}
+	public void study() {
+		System.out.println("공부를 한다.");
+	}
+	
 	@Override
 	public void showSleepStyle() {
 		System.out.println("학생들의 수면 스타일은 규칙적이다.");
