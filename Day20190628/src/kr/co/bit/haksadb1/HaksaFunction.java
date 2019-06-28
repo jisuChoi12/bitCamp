@@ -1,4 +1,4 @@
-package kr.co.bit.haksa3;
+package kr.co.bit.haksadb1;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -7,8 +7,7 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 public class HaksaFunction {
-	
-	public void register(Scanner input,Connection conn) {//등록
+	public static void register(Scanner input, Connection conn) {
 		System.out.println("========등록=========");
 		System.out.println("1.학생");
 		System.out.println("2.교수");
@@ -91,14 +90,15 @@ public class HaksaFunction {
 				e.printStackTrace();
 			}
 		}//관리자 등록
-	}//등록
-	public void search(Scanner input,Connection conn) {//찾기
+	}
+	
+	public static void srearch(Scanner input, Connection conn) {
 		System.out.println("========찾기=========");
 		System.out.println("1.학생찾기 2.교수찾기 3.관리자찾기");
-		int select = input.nextInt();
+		int protocol = input.nextInt();
 		System.out.println("이름:");
 		String irumSearch = input.next();
-		if(select==1) {//학생찾기
+		if(protocol==1) {//학생찾기
 			try {
 				System.out.print("번호\t나이\t이름\t학번\n");
 				Statement stmt = conn.createStatement();
@@ -117,7 +117,7 @@ public class HaksaFunction {
 				e.printStackTrace();
 			}
 		}//학생찾기
-		else if(select==2) {//교수찾기
+		else if(protocol==2) {//교수찾기
 			try {
 				Statement stmt = conn.createStatement();
 				String sql = "SELECT NO,AGE,IRUM,SUJECT FROM PROFESSOR WHERE IRUM='"+irumSearch+"'";
@@ -135,7 +135,7 @@ public class HaksaFunction {
 				e.printStackTrace();
 			}
 		}//교수찾기
-		else if(select==3) {//관리자찾기
+		else if(protocol==3) {//관리자찾기
 			try {
 				Statement stmt = conn.createStatement();
 				String sql = "SELECT NO,AGE,IRUM,PART FROM MANAGER WHERE IRUM='"+irumSearch+"'";
@@ -154,14 +154,15 @@ public class HaksaFunction {
 				e.printStackTrace();
 			}
 		}//관리자찾기
-	}//찾기
-	public void delete(Scanner input,Connection conn) {//삭제
+	}
+	
+	public static void delete(Scanner input, Connection conn) {
 		System.out.println("========삭제=========");
 		System.out.println("1.학생삭제 2.교수삭제 3.관리자삭제");
-		int select = input.nextInt();
+		int protocol = input.nextInt();
 		System.out.println("이름");
 		String irumDelete = input.next();
-		if(select==1) {//학생삭제
+		if(protocol==1) {//학생삭제
 			try {
 				Statement stmt = conn.createStatement();
 				String sql = "DELETE FROM STUDENT WHERE IRUM='"+irumDelete+"'";
@@ -177,7 +178,7 @@ public class HaksaFunction {
 				e.printStackTrace();
 			}
 		}//학생삭제
-		else if(select==2) {//교수삭제
+		else if(protocol==2) {//교수삭제
 			try {
 				Statement stmt = conn.createStatement();
 				String sql = "DELETE FROM PROFESSOR WHERE IRUM='"+irumDelete+"'";
@@ -193,7 +194,7 @@ public class HaksaFunction {
 				e.printStackTrace();
 			}
 		}//교수삭제
-		else if(select==3) {//관리자삭제
+		else if(protocol==3) {//관리자삭제
 			try {
 				Statement stmt = conn.createStatement();
 				String sql = "DELETE FROM MANAGER WHERE IRUM='"+irumDelete+"'";
@@ -209,12 +210,13 @@ public class HaksaFunction {
 				e.printStackTrace();
 			}
 		}//관리자삭제
-	}//찾기
-	public void list(Scanner input,Connection conn) {//전체출력
+	}
+	
+	public static void list(Scanner input, Connection conn) {
 		System.out.println("========전체출력=========");
 		System.out.println("1.학생전체출력 2.교수전체출력 3.관리자전체출력");
-		int select = input.nextInt();
-		if(select==1) {
+		int protocol = input.nextInt();
+		if(protocol==1) {
 			try {//학생전체출력
 				System.out.print("번호\t나이\t이름\t학번\n");
 				Statement stmt = conn.createStatement(); //공간준비
@@ -233,7 +235,7 @@ public class HaksaFunction {
 			e.printStackTrace();
 			}
 		}//학생전체출력
-		if(select==2) {//교수전체출력
+		if(protocol==2) {//교수전체출력
 			try {
 					System.out.print("번호\t나이\t이름\t과목\n");
 					Statement stmt = conn.createStatement(); //공간준비
@@ -252,7 +254,7 @@ public class HaksaFunction {
 				e.printStackTrace();
 				}
 		}//교수전체출력
-		else if(select==3) {//관리자전체출력
+		else if(protocol==3) {//관리자전체출력
 			try {
 					Statement stmt = conn.createStatement(); //공간준비
 					String sql = "SELECT NO,AGE,IRUM,PART FROM MANAGER ORDER BY NO ASC"; //문장준비
@@ -271,5 +273,5 @@ public class HaksaFunction {
 				e.printStackTrace();
 				}
 		}//관리자전체출력
-	}//전체출력
+	}
 }
