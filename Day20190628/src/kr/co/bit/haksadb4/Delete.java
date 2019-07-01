@@ -2,6 +2,7 @@ package kr.co.bit.haksadb4;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
@@ -10,13 +11,13 @@ public class Delete {
 	private int protocol;
 	private int cnt;
 	private String irumDelete;
-	private Statement stmt;
+	private PreparedStatement pstmt;
 	private String sql;
 	private Connection conn;
 	
 	public Delete() {
 		protocol=0; cnt=0;
-		irumDelete=null; stmt=null; sql=null;
+		irumDelete=null; pstmt=null; sql=null;
 	}
 	
 	public void deleteProcess() {
@@ -28,14 +29,15 @@ public class Delete {
 		if(protocol==1) {//학생삭제
 			try {
 				conn = Register.getConnection();
-				stmt = conn.createStatement();
-				sql = "DELETE FROM STUDENT WHERE IRUM='"+irumDelete+"'";
-				cnt = stmt.executeUpdate(sql);
+				sql = "DELETE FROM STUDENT WHERE IRUM=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, irumDelete);
+				cnt = pstmt.executeUpdate();
 				if(cnt==0) {
 					System.out.println("삭제실패");
 				}else {
 					System.out.println(cnt+ "건 삭제 완료");
-					stmt.close();
+					pstmt.close();
 					conn.close();
 				}
 			} catch (SQLException e) {
@@ -45,14 +47,15 @@ public class Delete {
 		else if(protocol==2) {//교수삭제
 			try {
 				conn = Register.getConnection();
-				stmt = conn.createStatement();
-				sql = "DELETE FROM PROFESSOR WHERE IRUM='"+irumDelete+"'";
-				cnt = stmt.executeUpdate(sql);
+				sql = "DELETE FROM PROFESSOR WHERE IRUM=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, irumDelete);
+				cnt = pstmt.executeUpdate();
 				if(cnt==0) {
 					System.out.println("삭제실패");
 				}else {
 					System.out.println(cnt+ "건 삭제 완료");
-					stmt.close();
+					pstmt.close();
 					conn.close();
 				}
 			} catch (SQLException e) {
@@ -62,14 +65,15 @@ public class Delete {
 		else if(protocol==3) {//관리자삭제
 			try {
 				conn = Register.getConnection();
-				stmt = conn.createStatement();
-				sql = "DELETE FROM MANAGER WHERE IRUM='"+irumDelete+"'";
-				cnt = stmt.executeUpdate(sql);
+				sql = "DELETE FROM MANAGER WHERE IRUM=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, irumDelete);
+				cnt = pstmt.executeUpdate();
 				if(cnt==0) {
 					System.out.println("삭제실패");
 				}else {
 					System.out.println(cnt+ "건 삭제 완료");
-					stmt.close();
+					pstmt.close();
 					conn.close();
 				}
 			} catch (SQLException e) {

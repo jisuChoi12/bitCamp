@@ -72,12 +72,12 @@ public class Register {
 			try {
 				conn = getConnection();
 				sql = "INSERT INTO STUDENT (NO,AGE,IRUM,HAKBUN) VALUES (?,?,?,?)"; //문장준비
-				PreparedStatement pstmt = conn.prepareStatement(sql); //문장준비
+				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, no);
 				pstmt.setString(2, age);
 				pstmt.setString(3, irum);
 				pstmt.setString(4, hakbun);
-				cnt = pstmt.executeUpdate(); //실행
+				cnt = pstmt.executeUpdate();
 				if(cnt==0) {
 					System.out.println("등록 실패");
 				}else {
@@ -101,12 +101,12 @@ public class Register {
 			try {
 				conn = getConnection();
 				sql = "INSERT INTO PROFESSOR (NO,AGE,IRUM,SUBJECT) VALUES (?,?,?,?)";
-				PreparedStatement pstmt = conn.prepareStatement(sql);
+				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, no);
 				pstmt.setString(2, age);
 				pstmt.setString(3, irum);
 				pstmt.setString(4, subject);
-				cnt = pstmt.executeUpdate();
+				int cnt = pstmt.executeUpdate();
 				if(cnt==0) {
 					System.out.println("등록 실패");
 				}else {
@@ -130,12 +130,12 @@ public class Register {
 			try {
 				conn = getConnection();
 				sql = "INSERT INTO MANAGER (NO,AGE,IRUM,PART) VALUES (?,?,?,?)";
-				PreparedStatement pstmt = conn.prepareStatement(sql);
+				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, no);
 				pstmt.setString(2, age);
 				pstmt.setString(3, irum);
 				pstmt.setString(4, part);
-				cnt = pstmt.executeUpdate();
+				int cnt = pstmt.executeUpdate();
 				if(cnt==0) {
 					System.out.println("등록 실패");
 				}else {

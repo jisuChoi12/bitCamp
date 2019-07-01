@@ -2,7 +2,6 @@ package kr.co.bit.haksadb3;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -11,7 +10,7 @@ import java.util.Scanner;
 public class List {
 	private int protocol;
 	private int no;
-	private PreparedStatement pstmt;
+	private Statement stmt;
 	private ResultSet rs;
 	private String sql;
 	private String age;
@@ -30,7 +29,7 @@ public class List {
 	
 	public List() {
 		protocol=0; no=0;
-		pstmt=null; rs=null; sql=null; age=null; irum=null; hakbun=null; subject=null; part=null;
+		stmt=null; rs=null; sql=null; age=null; irum=null; hakbun=null; subject=null; part=null;
 		st_age=null; st_irum=null; pf_age=null; pf_irum=null; mng_age=null; mng_irum=null;
 	}
 	
@@ -42,9 +41,9 @@ public class List {
 			try {//학생전체출력
 				conn = Register.getConnection();
 				System.out.print("번호\t나이\t이름\t학번\n");
+				stmt = conn.createStatement(); //공간준비
 				sql = "SELECT NO,AGE,IRUM,HAKBUN FROM STUDENT ORDER BY NO ASC"; //문장준비
-				pstmt = conn.prepareStatement(sql);
-				rs = pstmt.executeQuery(); //실행
+				rs = stmt.executeQuery(sql); //실행
 				while(rs.next()) {
 					no = rs.getInt("no");
 					age = rs.getString("age");
@@ -52,7 +51,7 @@ public class List {
 					hakbun = rs.getString("hakbun");
 					System.out.print(no+"\t"+age+"\t"+irum+"\t"+hakbun+"\n");
 				}
-				pstmt.close();
+				stmt.close();
 				conn.close();
 			} catch (SQLException e) {
 			e.printStackTrace();
@@ -62,9 +61,9 @@ public class List {
 			try {
 				conn = Register.getConnection();
 				System.out.print("번호\t나이\t이름\t과목\n");
+				stmt = conn.createStatement(); //공간준비
 				sql = "SELECT NO,AGE,IRUM,SUBJECT FROM PROFESSOR ORDER BY NO ASC"; //문장준비
-				pstmt = conn.prepareStatement(sql);
-				rs = pstmt.executeQuery(); //실행
+				rs = stmt.executeQuery(sql); //실행
 				while(rs.next()) {
 					no = rs.getInt("no");
 					age = rs.getString("age");
@@ -72,7 +71,7 @@ public class List {
 					subject = rs.getString("subject");
 					System.out.print(no+"\t"+age+"\t"+irum+"\t"+subject+"\n");
 				}
-				pstmt.close();
+				stmt.close();
 				conn.close();
 			} catch (SQLException e) {
 			e.printStackTrace();
@@ -81,10 +80,10 @@ public class List {
 		else if(protocol==3) {//관리자전체출력
 			try {
 				conn = Register.getConnection();
-				System.out.print("번호\t나이\t이름\t부서\n");
+				stmt = conn.createStatement(); //공간준비
 				sql = "SELECT NO,AGE,IRUM,PART FROM MANAGER ORDER BY NO ASC"; //문장준비
-				pstmt = conn.prepareStatement(sql);
-				rs = pstmt.executeQuery(); //실행
+				rs = stmt.executeQuery(sql); //실행
+				System.out.print("번호\t나이\t이름\t부서\n");
 				while(rs.next()) {
 					no = rs.getInt("no");
 					age = rs.getString("age");
@@ -92,7 +91,7 @@ public class List {
 					part = rs.getString("part");
 					System.out.print(no+"\t"+age+"\t"+irum+"\t"+part+"\n");
 				}
-				pstmt.close();
+				stmt.close();
 				conn.close();
 			} catch (SQLException e) {
 			e.printStackTrace();
@@ -102,10 +101,10 @@ public class List {
 		else if(protocol==4) {//학사전체출력
 			try {
 				conn = Register.getConnection();
-				System.out.print("번호\t학생나이\t학생이름\t학번\t교수나이\t교수이름\t과목\t관리자나이\t관리자이름\t부서\n");
+				stmt = conn.createStatement(); //공간준비
 				sql = "SELECT S.NO AS 번호,S.AGE AS 학생나이,S.IRUM AS 학생이름,S.HAKBUN AS 학번,P.AGE AS 교수나이,P.IRUM AS 교수이름,P.SUBJECT AS 과목,M.AGE AS 관리자나이,M.IRUM AS 관리자이름,M.PART AS 부서 FROM (STUDENT S LEFT JOIN PROFESSOR P ON S.NO=P.NO) LEFT JOIN MANAGER M ON S.NO=M.NO ORDER BY 번호 ASC"; //문장준비
-				pstmt = conn.prepareStatement(sql);
-				rs = pstmt.executeQuery(); //실행
+				rs = stmt.executeQuery(sql); //실행
+				System.out.print("번호\t학생나이\t학생이름\t학번\t교수나이\t교수이름\t과목\t관리자나이\t관리자이름\t부서\n");
 				while(rs.next()) {
 					no = rs.getInt("번호");
 					st_age = rs.getString("학생나이");
@@ -119,7 +118,7 @@ public class List {
 					part = rs.getString("부서");
 					System.out.print(no+"\t"+st_age+"\t"+st_irum+"\t"+hakbun+"\t"+pf_age+"\t"+pf_irum+"\t"+subject+"\t"+mng_age+"\t"+mng_irum+"\t"+part+"\n");
 				}
-				pstmt.close();
+				stmt.close();
 				conn.close();
 			} catch (SQLException e) {
 			e.printStackTrace();

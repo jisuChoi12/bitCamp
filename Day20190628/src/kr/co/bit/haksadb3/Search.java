@@ -2,7 +2,6 @@ package kr.co.bit.haksadb3;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,13 +17,13 @@ public class Search {
 	private String hakbun;
 	private String part;
 	private String subject;
+	private Statement stmt;
 	private ResultSet rs;
 	private Connection conn;
-	private PreparedStatement pstmt;
 	
 	public Search() {
 		protocol=0; no=0;
-		irumSearch=null; sql=null; irum=null; age=null; hakbun=null; part=null; subject=null; pstmt=null; rs=null; 
+		irumSearch=null; sql=null; irum=null; age=null; hakbun=null; part=null; subject=null; stmt=null; rs=null; 
 	}
 		
 	public void searchProcess() {
@@ -37,10 +36,9 @@ public class Search {
 			try {
 				conn = Register.getConnection();
 				System.out.print("번호\t나이\t이름\t학번\n");
+				stmt = conn.createStatement();
 				sql = "SELECT NO,AGE,IRUM,HAKBUN FROM STUDENT WHERE irum='"+irumSearch+"'";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, irumSearch);
-				rs = pstmt.executeQuery();
+				rs = stmt.executeQuery(sql);
 				while(rs.next()) {
 					no = rs.getInt("no");
 					age = rs.getString("age");
@@ -48,7 +46,7 @@ public class Search {
 					hakbun = rs.getString("hakbun");
 					System.out.println(no+"\t"+age+"\t"+irum+"\t"+hakbun+"\n");
 				}
-				pstmt.close();
+				stmt.close();
 				conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -57,10 +55,9 @@ public class Search {
 		else if(protocol==2) {//교수찾기
 			try {
 				conn = Register.getConnection();
+				stmt = conn.createStatement();
 				sql = "SELECT NO,AGE,IRUM,SUJECT FROM PROFESSOR WHERE IRUM='"+irumSearch+"'";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, irumSearch);
-				rs = pstmt.executeQuery();
+				rs = stmt.executeQuery(sql);
 				while(rs.next()) {
 					no = rs.getInt("no");
 					age = rs.getString("age");
@@ -68,7 +65,7 @@ public class Search {
 					subject = rs.getString("subject");
 					System.out.println(no+"\t"+age+"\t"+irum+"\t"+subject+"\n");
 				}
-				pstmt.close();
+				stmt.close();
 				conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -77,10 +74,9 @@ public class Search {
 		else if(protocol==3) {//관리자찾기
 			try {
 				conn = Register.getConnection();
+				stmt = conn.createStatement();
 				sql = "SELECT NO,AGE,IRUM,PART FROM MANAGER WHERE IRUM='"+irumSearch+"'";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, irumSearch);
-				rs = pstmt.executeQuery();
+				rs = stmt.executeQuery(sql);
 				while(rs.next()) {
 					no = rs.getInt("no");
 					age = rs.getString("age");
@@ -89,7 +85,7 @@ public class Search {
 					System.out.println(no+"\t"+age+"\t"+irum+"\t"+part+"\n");
 			
 				}
-				pstmt.close();
+				stmt.close();
 				conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
