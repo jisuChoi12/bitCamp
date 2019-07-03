@@ -22,6 +22,6 @@ public class CalendaTest {
 		DateFormat df = DateFormat.getDateTimeInstance();
 		//Ãâ·Â
 		System.out.println(sdf.format(date));
-		System.out.println(df.format(date));
+		System.out.println(df.format(date));		
 	}
 }
