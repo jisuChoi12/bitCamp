@@ -1,4 +1,4 @@
-package kr.co.bit.boarddb3;
+package kr.co.bit.boarddb;
 
 import java.io.BufferedReader;
 import java.sql.Connection;
@@ -31,7 +31,7 @@ public class List extends Board{
 	
 	public void listProcess() throws SQLException {
 		System.out.println("====전체출력====");
-		showTitles();
+		boardTitle();
 		boardSqlList();
 		boardSqlExecuter();
 		rs.close();

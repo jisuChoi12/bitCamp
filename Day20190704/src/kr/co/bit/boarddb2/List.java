@@ -1,6 +1,7 @@
-package kr.co.bit.boarddb3;
+package kr.co.bit.boarddb2;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,8 +12,9 @@ public class List extends Board{
 	public List() {
 	}
 	
-	public void boardSqlList() {
-		sql = "SELECT NO,TITLE,CONTENT,AUTHOR,NAL,READCOUNT FROM BOARD ORDER BY NO ASC";		
+	@Override
+	public void boardSql() {
+		sql = "SELECT NO,TITLE,CONTENT,AUTHOR,NAL,READCOUNT FROM BOARD ORDER BY NO ASC";	
 	}
 	
 	public void boardSqlExecuter() throws SQLException{
@@ -28,13 +30,23 @@ public class List extends Board{
 			System.out.print(no+"\t"+title+"\t"+content+"\t"+author+"\t"+nal+"\t"+readcount+"\n");
 		}		
 	}
-	
-	public void listProcess() throws SQLException {
+
+	@Override
+	public void boardClose() {
+		try {
+			pstmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void boardProcess() throws SQLException, IOException {
 		System.out.println("====전체출력====");
-		showTitles();
-		boardSqlList();
+		boardTitle();
 		boardSqlExecuter();
 		rs.close();
-		closeAll();
+		boardClose();
 	}
 }

@@ -1,4 +1,4 @@
-package kr.co.bit.boarddb3;
+package kr.co.bit.boarddb2;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,13 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Update extends Board{
-	private String titleSearch;
-//	private String titleUpdate;
-//	private String contentUpdate;
 	
 	public Update() {
-		titleSearch=null; 
-//		titleUpdate=null; contentUpdate=null; 
 	}
 	
 	public void setTitleUpdate() throws IOException {
@@ -23,14 +18,11 @@ public class Update extends Board{
 		titleSearch = br.readLine();		
 	}
 	
-	public void boardSqlSearch() {
+	@Override
+	public void boardSql() {
 		sql = "SELECT NO,TITLE,CONTENT,AUTHOR,NAL,READCOUNT FROM BOARD WHERE TITLE=?";
 	}
 	
-	public void setUpdateTitleContent() throws IOException {
-		System.out.println("수정할 제목|내용 입력");
-		titleContent = br.readLine();
-	}
 	
 	public void boardSqlUpdate() {
 		sql = "UPDATE BOARD SET TITLE=?,CONTENT=? WHERE TITLE=?";
@@ -56,25 +48,33 @@ public class Update extends Board{
 			author = rs.getString("author");
 			nal = rs.getString("nal");
 			readcount = rs.getInt("readcount");
-			System.out.println("수정 전 내용입니다.");
-			showTitles();
-			System.out.print(no+"\t"+title+"\t"+content+"\t"+author+"\t"+nal+"\t"+readcount+"\n");
 			System.out.println("해당 게시글이 검색되었습니다.");
-			
-			setUpdateTitleContent();
-//			setTitleContent();
-			titleContentProcess();
-			boardSqlUpdate();
-			UpdateExecuter();
+			System.out.println("수정 전 내용입니다.");
+			boardTitle();
+			System.out.print(no+"\t"+title+"\t"+content+"\t"+author+"\t"+nal+"\t"+readcount+"\n");
 		}
 	}
 
-	public void updateProcess() throws SQLException,IOException {
+	@Override
+	public void boardClose() {
+		try {
+			rs.close();
+			pstmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void boardProcess() throws SQLException, IOException {
 		setTitleUpdate();
-		boardSqlSearch();
 		SearchExecuter();
-		rs.close();
-		closeAll();
+		boardSqlUpdate();
+		setTitleContent();
+		titleContentProcess();
+		UpdateExecuter();
+		boardClose();
 	}
 }
 	

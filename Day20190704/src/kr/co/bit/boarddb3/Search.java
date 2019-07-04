@@ -1,17 +1,12 @@
 package kr.co.bit.boarddb3;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Search extends Board{
-	private String titleSearch;
+public class Search extends Board implements BoardInter{
 	
 	public Search() {
-		titleSearch=null; 
+
 	}
 	
 	public void setTitleSearch() throws IOException {
@@ -20,10 +15,11 @@ public class Search extends Board{
 		titleSearch = br.readLine();		
 	}
 	
-	public void boardSqlSearch() {
-		sql = "SELECT NO,TITLE,CONTENT,AUTHOR,NAL,READCOUNT FROM BOARD WHERE TITLE=?";		
+	@Override
+	public void boardSql() {
+		sql = "SELECT NO,TITLE,CONTENT,AUTHOR,NAL,READCOUNT FROM BOARD WHERE TITLE=?";	
 	}
-
+	
 	public void searchExecuter() throws SQLException {
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, titleSearch);
@@ -39,12 +35,22 @@ public class Search extends Board{
 		}		
 	}
 	
-	public void searchProcess() throws SQLException,IOException {
+	@Override
+	public void boardClose() {
+		try {
+			rs.close();
+			pstmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void boardProcess() throws SQLException, IOException {
 		setTitleSearch();
-		showTitles();
-		boardSqlSearch();
+		boardTitle();
 		searchExecuter();
-		rs.close();
-		closeAll();
+		boardClose();
 	}
 }

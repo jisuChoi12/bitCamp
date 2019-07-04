@@ -1,4 +1,4 @@
-package kr.co.bit.boarddb3;
+package kr.co.bit.boarddb;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,10 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Search extends Board{
-	private String titleSearch;
 	
 	public Search() {
-		titleSearch=null; 
+
 	}
 	
 	public void setTitleSearch() throws IOException {
@@ -41,7 +40,7 @@ public class Search extends Board{
 	
 	public void searchProcess() throws SQLException,IOException {
 		setTitleSearch();
-		showTitles();
+		boardTitle();
 		boardSqlSearch();
 		searchExecuter();
 		rs.close();

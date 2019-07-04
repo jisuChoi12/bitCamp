@@ -1,4 +1,4 @@
-package kr.co.bit.boarddb3;
+package kr.co.bit.boarddb;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,13 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Update extends Board{
-	private String titleSearch;
-//	private String titleUpdate;
-//	private String contentUpdate;
 	
 	public Update() {
-		titleSearch=null; 
-//		titleUpdate=null; contentUpdate=null; 
+		
 	}
 	
 	public void setTitleUpdate() throws IOException {
@@ -25,11 +21,6 @@ public class Update extends Board{
 	
 	public void boardSqlSearch() {
 		sql = "SELECT NO,TITLE,CONTENT,AUTHOR,NAL,READCOUNT FROM BOARD WHERE TITLE=?";
-	}
-	
-	public void setUpdateTitleContent() throws IOException {
-		System.out.println("수정할 제목|내용 입력");
-		titleContent = br.readLine();
 	}
 	
 	public void boardSqlUpdate() {
@@ -56,13 +47,12 @@ public class Update extends Board{
 			author = rs.getString("author");
 			nal = rs.getString("nal");
 			readcount = rs.getInt("readcount");
-			System.out.println("수정 전 내용입니다.");
-			showTitles();
-			System.out.print(no+"\t"+title+"\t"+content+"\t"+author+"\t"+nal+"\t"+readcount+"\n");
 			System.out.println("해당 게시글이 검색되었습니다.");
+			System.out.println("수정 전 내용입니다.");
+			boardTitle();
+			System.out.print(no+"\t"+title+"\t"+content+"\t"+author+"\t"+nal+"\t"+readcount+"\n");
 			
-			setUpdateTitleContent();
-//			setTitleContent();
+			setTitleContent();
 			titleContentProcess();
 			boardSqlUpdate();
 			UpdateExecuter();

@@ -30,7 +30,7 @@ class InterfaceImp extends Vehicle implements Flyable{
 //메인틀래스
 public class InterfaceTest2 {
 	public static void main(String[] args) {
-		//하위클래스의 객체상속
+		//하위클래스의 객체
 		InterfaceImp interfaceImp = new InterfaceImp();
 		//Vehicle클래스의 move메소드
 		interfaceImp.move();
