@@ -1,4 +1,4 @@
-package kr.co.bit.haksaFull;
+package kr.co.bit.haksa1;
 
 import java.io.BufferedReader;
 import java.io.IOException;
