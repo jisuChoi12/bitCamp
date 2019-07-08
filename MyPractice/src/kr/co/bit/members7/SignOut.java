@@ -8,8 +8,8 @@ public class SignOut extends Members implements Process, Session{
 	@Override
 	public void process() throws SQLException, IOException {
 		if(isLogin()) {
-			changeSessionStatus();
 			System.out.println("로그아웃되었습니다");
+			changeSessionStatus();
 		}
 		else {
 			System.out.println("로그인중이 아닙니다.");
@@ -18,6 +18,6 @@ public class SignOut extends Members implements Process, Session{
 
 	@Override
 	public void changeSessionStatus() {
-		session = null;
+		Members.session = null;
 	}
 }

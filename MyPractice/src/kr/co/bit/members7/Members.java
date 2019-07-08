@@ -12,6 +12,7 @@ public class Members {
 	protected static BufferedReader br;
 	protected static Connection conn;
 	protected static boolean login;
+	protected static String session;
 	protected ResultSet rs;
 	protected PreparedStatement pstmt;
 	protected int cnt;
@@ -21,7 +22,6 @@ public class Members {
 	protected String phone;
 	protected String sql;
 	
-	protected static String session;
 	
 	public Members() {
 		pstmt=null; rs=null; id=null; psw=null; adr=null; phone=null; 
