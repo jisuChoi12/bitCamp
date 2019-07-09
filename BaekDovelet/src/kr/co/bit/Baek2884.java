@@ -8,20 +8,14 @@ public class Baek2884 {
 		Scanner scan = new Scanner(System.in);
 		int h = scan.nextInt();
 		int m = scan.nextInt();
-		if(m<45 && h>=1) {
+		if(m-45<0) {
 			h = h-1;
-			m = 60+(m-45);
-		}
-		else if(h<=0 && m<45 && m>0) {
-			h = 24+h;
-			m = 60+(m-45);
-		}
-		else if(h>=0 && m>=45) {
+			m = m+15;
+		} else {
 			m = m-45;
 		}
-		else if(h==0 && m==0) {
+		if(h<0) {
 			h = 23;
-			m = 60+(m-45);
 		}
 		System.out.println(h+" "+m);
 	}
