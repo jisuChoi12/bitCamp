@@ -26,17 +26,23 @@ import java.util.Scanner;
 class Quiz {
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
+		int wrongCnt=0;
+		int rNum1=0;
+		int rNum2=0;
 		int score = 0;
-
+		int ans=0;
+		int guess=0;
+		String again;
+		
 		while (true) {
 			for (int i = 1; i <= 5; i++) {
-				int wrongCnt=0;
-				int rNum1 = (int) (Math.random() * 89) + 10;
-				int rNum2 = (int) (Math.random() * 89) + 10;
+				wrongCnt=0;
+				rNum1 = (int) (Math.random() * 90) + 10;
+				rNum2 = (int) (Math.random() * 90) + 10;
 				while (true) {
 					System.out.print("[" + i + "] " + rNum1 + " + " + rNum2 + " = ");
-					int ans = rNum1 + rNum2;
-					int guess = scan.nextInt();
+					ans = rNum1 + rNum2;
+					guess = scan.nextInt();
 					if (guess == ans) {
 						System.out.println("정답!");
 						wrongCnt = 0;
@@ -59,11 +65,12 @@ class Quiz {
 			}
 			System.out.println("총 맞은 문제는 "+(score/20)+"문제이고 점수는 "+score+"점 입니다.");
 			score = 0;
-			System.out.print("한번 더? y/n: ");
-			String again = scan.next();
-			if (again.equalsIgnoreCase("y")) {
-			}	
-			if (again.equalsIgnoreCase("n")) {
+			do{
+				System.out.print("한번 더? y/n: ");
+				again = scan.next();
+				if(again.equalsIgnoreCase("y") || again.equalsIgnoreCase("n")) break;
+			}while(true);	
+			if(again.equalsIgnoreCase("n")){
 				System.out.println("프로그램을 종료합니다");
 				break;
 			}

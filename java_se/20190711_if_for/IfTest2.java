@@ -20,6 +20,7 @@ class IfTest2 {
 		int b = scan.nextInt();
 		System.out.print("c값 입력: ");
 		int c = scan.nextInt();
+
 		if(a<b && a<c){ //a 가 가장 작음
 			if(b<c){ // b가 c보다 작음 --> a b c
 				System.out.print(a+" "+b+" "+c);
