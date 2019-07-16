@@ -36,6 +36,7 @@ import java.util.Scanner;
 class Exam{
 	private String name;
 	private String dap;
+	private int person;
 	private char[] ox;
 	private int score;
 	public static final String JUNGDAP = "11111";
@@ -87,14 +88,16 @@ class ExamMain {
 			scr="";
 			exam[i] = new Exam(); // i번째 객체 배열방의 객체 생성
 			exam[i].comp(); 
-		}
-
-		System.out.println("이름\t1\t2\t3\t4\t5\t점수");
-		for (int i = 0; i < exam.length; i++) { // 각각의 객체에서 결과값 가져오기
+			
 			for (int j = 0; j < exam[i].getOX().length; j++) { // 각각의 객체에 있는 ox배열의 o/x결과값 가져오기
 				scr += exam[i].getOX()[j]+"\t"; 
 			}
-			System.out.println(exam[i].getName()+"\t"+scr+exam[i].getScore());
+			
+		}
+
+		System.out.println("이름\t1\t2\t3\t4\t5\t점수");
+		for (int j = 0; j < exam.length; j++) { // 각각의 객체에서 결과값 가져오기
+			System.out.println(exam[j].getName()+"\t"+scr+exam[j].getScore());
 		}
 	}
 }
