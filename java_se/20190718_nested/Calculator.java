@@ -5,10 +5,12 @@ import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.WindowAdapter;
 
-class Calculator extends Frame implements WindowListener {
+class Calculator extends Frame implements ActionListener{
 	private Button[] btn;
 	private Panel[] p;
 	private Label upL, downL;
@@ -19,7 +21,7 @@ class Calculator extends Frame implements WindowListener {
 		downL = new Label(""); // 입력 숫자
 		btn = new Button[18];
 		p = new Panel[8];
-		btnName = new String[]{"BackSpace","C","7","8","9","/","4","5","6","*","1","2","3","-","-",".","0","=","*"};
+		btnName = new String[]{"BackSpace","C","7","8","9","/","4","5","6","*","1","2","3","-",".","0","=","+"};
 		
 		this.setResizable(false); // 윈도우 크기 고정
 
@@ -29,7 +31,7 @@ class Calculator extends Frame implements WindowListener {
 		}
 		
 		// 패널 레이아웃
-		p[0].setBackground(new Color(200,200,200));
+		p[0].setBackground(new Color(209,209,209));
 		p[0].setLayout(new GridLayout(7,1,5,5));
 		//p[1].setLayout(new GridLayout(1,1,5,5));
 		//p[2].setLayout(new GridLayout(1,1,5,5));
@@ -40,9 +42,9 @@ class Calculator extends Frame implements WindowListener {
 		p[7].setLayout(new GridLayout(1,4,5,5));
 
 		// 라벨
-		upL.setBackground(new Color(223,234,255));
+		upL.setBackground(new Color(204,220,253));
 		upL.setPreferredSize(new Dimension(280,35));
-		downL.setBackground(new Color(223,234,255));
+		downL.setBackground(new Color(204,220,253));
 		downL.setPreferredSize(new Dimension(280,35));
 		
 		// 버튼배열객체생성
@@ -77,26 +79,77 @@ class Calculator extends Frame implements WindowListener {
 		setVisible(true);
 		
 		// event
-		this.addWindowListener(this);
+		this.addWindowListener(new WindowAdapter(){
+			@Override
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		});
+		
+		btn[0].addActionListener(this);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==btn[0]) {
+			System.out.println("BackSpace");
+		}
+		else if(e.getSource()=="C") {
+			
+		}
+		else if(e.getSource()=="7") {
+			
+		}
+		else if(e.getSource()=="8") {
+			
+		}
+		else if(e.getSource()=="9") {
+			
+		}
+		else if(e.getSource()=="/") {
+			
+		}
+		else if(e.getSource()=="4") {
+			
+		}
+		else if(e.getSource()=="5") {
+			
+		}
+		else if(e.getSource()=="6") {
+			
+		}
+		else if(e.getSource()=="*") {
+			
+		}
+		else if(e.getSource()=="1") {
+			
+		}
+		else if(e.getSource()=="2") {
+			
+		}
+		else if(e.getSource()=="3") {
+			
+		}
+		else if(e.getSource()=="-") {
+			
+		}
+		else if(e.getSource()==".") {
+			
+		}
+		else if(e.getSource()=="0") {
+			
+		}
+		else if(e.getSource()=="=") {
+			
+		}
+		else if(e.getSource()=="+") {
+			
+		}	
 	}
 	
-	// windowListener
-	public void	windowActivated(WindowEvent e){}
-
-	public void	windowClosed(WindowEvent e){}
-
-	public void	windowClosing(WindowEvent e){ System.exit(0); }
-
-	public void	windowDeactivated(WindowEvent e){}
-
-	public void	windowDeiconified(WindowEvent e){}
-
-	public void	windowIconified(WindowEvent e){}
-
-	public void	windowOpened(WindowEvent e){}
-
 	// main
 	public static void main(String[] args) {
 		new Calculator().init();
 	}
+
 }
