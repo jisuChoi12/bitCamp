@@ -17,6 +17,7 @@ class Outer {
 
 	public static void main(String[] args) {
 		Outer outer = new Outer();
+		
 		outer.name = "aaa";
 		//outer.age = 25; -> x
 		outer.output();

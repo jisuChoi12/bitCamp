@@ -10,7 +10,6 @@ import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.lang.reflect.WildcardType;
 import java.awt.event.WindowAdapter;
 
 class Calculator extends Frame implements ActionListener{
@@ -18,40 +17,48 @@ class Calculator extends Frame implements ActionListener{
 	private Panel[] p;
 	private Label upL, downL;
 	private String[] btnName;
-	static String strForDisp;
-//	static String strForCalc;
-//	double a;
-//	double b;
-//	double answer; 
-	
+
+	private StringBuffer sb;
+	private int dot;
 
 	public void init(){	
-		upL = new Label(""); // 식
-		downL = new Label(""); // 입력 숫자
+		upL = new Label(""); // 결과
+		downL = new Label(""); // 입력 숫자/부호
 		btn = new Button[18];
 		p = new Panel[8];
-		btnName = new String[]{"BackSpace","C","7","8","9","/","4","5","6","*","1","2","3","-",".","0","=","+"};
-		strForDisp = "";
+		btnName = new String[]{"BackSpace","C",
+								"7","8","9","/",
+								"4","5","6","*",
+								"1","2","3","-",
+								".","0","=","+"};
+		
+		sb = new StringBuffer();
+		
+		sb.append("0");
+		downL.setText(sb.toString());
+		
+		dot = -1;
 		
 		this.setResizable(false); // 윈도우 크기 고정
 
 		// 패널배열객체생성
 		for (int i = 0; i < p.length; i++) { 
-			p[i] = new Panel(); 
+			p[i] = new Panel();
+			if(i>=4 && i<=7) {
+				p[i].setLayout(new GridLayout(1,4,5,5));
+			}
 		}
 		
 		// 패널 레이아웃
 		p[0].setBackground(new Color(209,209,209));
 		p[0].setLayout(new GridLayout(7,1,5,5));
-		//p[1].setLayout(new GridLayout(1,1,5,5));
-		//p[2].setLayout(new GridLayout(1,1,5,5));
 		p[3].setLayout(new GridLayout(1,2,5,5));
-		p[4].setLayout(new GridLayout(1,4,5,5));
-		p[5].setLayout(new GridLayout(1,4,5,5));
-		p[6].setLayout(new GridLayout(1,4,5,5));
-		p[7].setLayout(new GridLayout(1,4,5,5));
+//		p[4].setLayout(new GridLayout(1,4,5,5)); // 자동으로 사이즈가 맞춰짐
+//		p[5].setLayout(new GridLayout(1,4,5,5));
+//		p[6].setLayout(new GridLayout(1,4,5,5));
+//		p[7].setLayout(new GridLayout(1,4,5,5));
 
-		// 라벨
+		// 라벨 레이아웃
 		upL.setBackground(new Color(204,220,253));
 		upL.setPreferredSize(new Dimension(280,35));
 		upL.setAlignment(Label.RIGHT);
@@ -76,7 +83,7 @@ class Calculator extends Frame implements ActionListener{
 			}
 			n+=4;
 		}
-		
+			
 		// 전체패널
 		add(p[0]); 	
 		
@@ -118,122 +125,115 @@ class Calculator extends Frame implements ActionListener{
 		btn[17].addActionListener(this);
 		
 	}
-	
-	// 연속으로 부호 x
-	public boolean simbolCheck() {
-		boolean sim = false;
-		strForDisp = downL.getText();
-		if (strForDisp.length()==0) {
-			System.out.println("?");
+	public void isZeroFirst() {
+		if(sb.length()==1 && sb.charAt(0)=='0') { // 유일한 숫자가 0이면 (계산기 기본상태)
+			sb.deleteCharAt(0);
 		}
-		else {
-			char ch = strForDisp.charAt(strForDisp.length() - 1);
-			if (ch != '/' && ch != '-' && ch != '+' && ch != '*' && ch != '.' && ch != '=') {
-				sim = true;
-			}
+	}
+	
+	public boolean isSimbolFirst() {
+		boolean sim = true;
+		if(sb.length()==1 && sb.charAt(0)=='0' || sb.length()==0) { // 유일한 숫자가 0이거나 아예 입력되지 않았으면
+			sim = false;
 		}
 		return sim;
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource()==btn[0]) { //BackSpace
-			strForDisp = downL.getText();
-			if(strForDisp.length()>0) {
-				strForDisp = strForDisp.substring(0, strForDisp.length()-1);
-				downL.setText(strForDisp);
+
+		if (e.getSource() == btn[0]) { // BackSpace
+			if(sb.length()!=0) {
+				sb.deleteCharAt(sb.length()-1);
+				if(sb.length()==0) {
+					sb.append("0");
+				}
+			}
+		} else if (e.getSource() == btn[1]) { // C
+			sb.delete(0, sb.length());
+			sb.append("0");
+			upL.setText("");
+		} else if (e.getSource() == btn[2]) { // 7
+			isZeroFirst();
+			sb.append("7");
+		} else if (e.getSource() == btn[3]) { // 8
+			isZeroFirst();
+			sb.append("8");
+		} else if (e.getSource() == btn[4]) { // 9
+			isZeroFirst();
+			sb.append("9");
+		} else if (e.getSource() == btn[5]) { // /
+			if (isSimbolFirst()) {
+				sb.append("/");
+				String strup = upL.getText();
+				strup += sb.toString();
+				upL.setText(strup);
+				sb.delete(0, sb.length());				
+			}
+		} else if (e.getSource() == btn[6]) { // 4
+			isZeroFirst();
+			sb.append("4");
+		} else if (e.getSource() == btn[7]) { // 5
+			isZeroFirst();
+			sb.append("5");
+		} else if (e.getSource() == btn[8]) { // 6
+			isZeroFirst();
+			sb.append("6");
+		} else if (e.getSource() == btn[9]) { // *
+			if (isSimbolFirst()) {
+				sb.append("*");
+				String strup = upL.getText();
+				strup += sb.toString();
+				upL.setText(strup);
+				sb.delete(0, sb.length());				
+			}
+		} else if (e.getSource() == btn[10]) { // 1
+			isZeroFirst();
+			sb.append("1");
+		} else if (e.getSource() == btn[11]) { // 2
+			isZeroFirst();
+			sb.append("2");
+		} else if (e.getSource() == btn[12]) { // 3
+			isZeroFirst();
+			sb.append("3");
+		} else if (e.getSource() == btn[13]) { // -
+			if (isSimbolFirst()) {
+				sb.append("-");
+				String strup = upL.getText();
+				strup += sb.toString();
+				upL.setText(strup);
+				sb.delete(0, sb.length());				
+			}
+		} else if (e.getSource() == btn[14]) { // .
+			dot = sb.indexOf(".");
+			if(dot==-1 && sb.length()!=0) {
+				sb.append(".");
+			}
+		} else if (e.getSource() == btn[15]) { // 0
+			isZeroFirst();
+			sb.append("0");
+		} else if (e.getSource() == btn[16]) { // =
+			String strup = upL.getText();
+			int divi = strup.indexOf('/');
+			int addi = strup.indexOf('+');
+			int muli = strup.indexOf('*');
+			int subi = strup.indexOf('-');
+			
+		} else if (e.getSource() == btn[17]) { // +
+			if(isSimbolFirst()) {
+				sb.append("+");
+				String strup = upL.getText();
+				strup += sb.toString();
+				upL.setText(strup);
+				sb.delete(0, sb.length());
 			}
 		}
-		else if(e.getSource()==btn[1]) { // C
-			strForDisp = "";
-			downL.setText(strForDisp);
-		}
-		else if(e.getSource()==btn[2]) { // 7
-			strForDisp += "7";
-			downL.setText(strForDisp);
-		}
-		else if(e.getSource()==btn[3]) { // 8
-			strForDisp += "8";
-			downL.setText(strForDisp);
-		}
-		else if(e.getSource()==btn[4]) { // 9
-			strForDisp += "9";
-			downL.setText(strForDisp);
-		}
-		else if(e.getSource()==btn[5]) { // /
-			if(simbolCheck()) {
-				strForDisp += "/";
-				downL.setText(strForDisp);
-			}
-		}
-		else if(e.getSource()==btn[6]) { // 4
-			strForDisp += "4";
-			downL.setText(strForDisp);
-		}
-		else if(e.getSource()==btn[7]) { // 5
-			strForDisp += "5";
-			downL.setText(strForDisp);
-		}
-		else if(e.getSource()==btn[8]) { // 6
-			strForDisp += "6";
-			downL.setText(strForDisp);
-		}
-		else if(e.getSource()==btn[9]) { // *
-			if (simbolCheck()) {
-				strForDisp += "*";
-				downL.setText(strForDisp);				
-			}
-		}
-		else if(e.getSource()==btn[10]) { // 1
-			strForDisp += "1";
-			downL.setText(strForDisp);
-		}
-		else if(e.getSource()==btn[11]) { // 2
-			strForDisp += "2";
-			downL.setText(strForDisp);
-		}
-		else if(e.getSource()==btn[12]) { // 3
-			strForDisp += "3";
-			downL.setText(strForDisp);
-		}
-		else if(e.getSource()==btn[13]) { // -
-			if (simbolCheck()) {
-				strForDisp += "-";
-				downL.setText(strForDisp);				
-			}
-		}
-		else if(e.getSource()==btn[14]) { // .
-			if (simbolCheck()) {
-				strForDisp += ".";
-				downL.setText(strForDisp);						
-			}
-		}
-		else if(e.getSource()==btn[15]) { // 0
-			strForDisp += "0";
-			downL.setText(strForDisp);
-		}
-		else if(e.getSource()==btn[16]) { // =
-			if (simbolCheck()) {
-				//strForDisp += "=";
-				//downL.setText(strForDisp);
-				upL.setText(strForDisp);
-				strForDisp = "";
-				downL.setText(strForDisp);
-			}
-		}
-		else if(e.getSource()==btn[17]) { // +
-			if (simbolCheck()) {
-				strForDisp += "+";
-				downL.setText(strForDisp);			
-			}
-		}
+		String str = sb.toString();
+		downL.setText(str);
 	}
-	
+
 	// main
 	public static void main(String[] args) {
 		new Calculator().init();
 	}
-
-
-
 }
