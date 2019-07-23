@@ -18,6 +18,7 @@ class Packman extends Frame implements KeyListener, Runnable {
 	private int[] foodX, foodY;
 
 	public Packman(){
+
 		foodX = new int[5];
 		foodY = new int[5];
 
@@ -26,8 +27,8 @@ class Packman extends Frame implements KeyListener, Runnable {
 		setResizable(false);
 
 		for(int i=0; i<5; i++){
-			foodX[i]=(int)(Math.random()*450)+25;
-			foodY[i]=(int)(Math.random()*450)+25;
+			foodX[i]=(int)(Math.random()*451)+25; // 25-475
+			foodY[i]=(int)(Math.random()*451)+25;
 		}
 		// event
 		addWindowListener(new WindowAdapter(){ 
@@ -77,8 +78,6 @@ class Packman extends Frame implements KeyListener, Runnable {
 					foodY[i]=-500;
 				}
 			}
-			
-
 			repaint();
 			try{
 				Thread.sleep(80); // 1/1000´ÜÀ§

@@ -3,6 +3,7 @@ package kr.co.bit;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Label;
@@ -22,6 +23,7 @@ class Calculator extends Frame implements ActionListener{
 	private StringBuffer outBuf;
 	private double result;
 	private int op=-100;
+	private DecimalFormat df = new DecimalFormat("#,###.#####");
 	
 	public void init(){	
 		btn = new Button[18];
@@ -61,8 +63,10 @@ class Calculator extends Frame implements ActionListener{
 		inL.setBackground(new Color(204,220,253));
 		inL.setPreferredSize(new Dimension(280,35));
 		inL.setAlignment(Label.RIGHT);
+		inL.setFont(new Font("고딕체",Font.BOLD, 16));
 		outL.setBackground(new Color(204,220,253));
 		outL.setPreferredSize(new Dimension(280,35));
+		outL.setFont(new Font("고딕체",Font.BOLD, 26));
 		outL.setAlignment(Label.RIGHT);
 		
 		// 작은패널 <- 버튼/라벨
@@ -120,9 +124,10 @@ class Calculator extends Frame implements ActionListener{
 			} else if (op=='/') {
 				result /= Double.parseDouble(outBuf.toString()); 
 			} else if(op=='=') {
+				inBuf.delete(0, inBuf.length());
 				inL.setText("");
 				outBuf.delete(0, outBuf.length());
-				outBuf.append(new DecimalFormat("#.###").format(result));
+				outBuf.append(df.format(result));
 				outL.setText(outBuf.toString());
 			}
 		}
@@ -181,9 +186,10 @@ class Calculator extends Frame implements ActionListener{
 			calc();// 계산
 			op = '+';
 			inBuf.append(outBuf+"+");
-			inL.setText(inBuf.toString());
 			outBuf.delete(0, outBuf.length());
 			outBuf.append("0");
+			outL.setText(df.format(result));
+			inL.setText(inBuf.toString());
 			
 		}
 		// -
@@ -191,9 +197,10 @@ class Calculator extends Frame implements ActionListener{
 			calc();// 계산
 			op = '-';
 			inBuf.append(outBuf+"-");
-			inL.setText(inBuf.toString());
 			outBuf.delete(0, outBuf.length());
 			outBuf.append("0");
+			outL.setText(df.format(result));
+			inL.setText(inBuf.toString());
 	
 		}
 		// *
@@ -201,24 +208,26 @@ class Calculator extends Frame implements ActionListener{
 			calc();// 계산
 			op = '*';
 			inBuf.append(outBuf+"*");
-			inL.setText(inBuf.toString());
 			outBuf.delete(0, outBuf.length());
 			outBuf.append("0");
+			outL.setText(df.format(result));
+			inL.setText(inBuf.toString());
 		}
 		// /
 		else if(e.getActionCommand()=="/") { 
 			calc();// 계산
 			op = '/';
 			inBuf.append(outBuf+"/");
-			inL.setText(inBuf.toString());
 			outBuf.delete(0, outBuf.length());
 			outBuf.append("0");
+			outL.setText(df.format(result));
+			inL.setText(inBuf.toString());
 		}
 		// =
 		else if(e.getActionCommand()=="=") { 
 			calc();
 			op = '=';
-			calc();
+			calc();	
 		}
 	}
 

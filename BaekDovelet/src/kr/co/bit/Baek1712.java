@@ -17,6 +17,7 @@ public class Baek1712 {
 			 a = Integer.parseInt(abc[0]);
 			 b = Integer.parseInt(abc[1]);
 			 c = Integer.parseInt(abc[2]);
+			
 			System.out.println(a+" "+b+" "+c);
 			
 		} catch (IOException e) {

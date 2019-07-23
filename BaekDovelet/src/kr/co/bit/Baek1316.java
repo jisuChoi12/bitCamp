@@ -1,58 +1,29 @@
 package kr.co.bit;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class Baek1316 {
 
 	public static void main(String[] args) {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int[] cheak = new int[26];
-		int cnt = 0;
-		try {
-			int n = br.read();
-			for (int i = 0; i < n; i++) {
-				cnt = 0;
-				String word = br.readLine();
-				for (int j = 0; j < word.length(); j++) {
-//					if(word.charAt(i)==word.charAt(i+1)) {
-//						cnt++;
-//					}
+		Scanner scan = new Scanner(System.in);
+		int n = scan.nextInt(); // 테스트 케이스
+		int answer = n;  // 그룹단어 개수 (초기값은 테스트 케이스 n)
+		for (int i = 0; i < n; i++) { // 테스트 케이스만큼 반복
+			String word = scan.next(); // 단어입력
+			boolean[] check = new boolean[26]; // 알파벳 배열방(boolean)                   j      j          j
+			for (int j = 1; j < word.length(); j++) { // 단어의 길이만큼 반복 (1부터 시작 -> [0][1],[1][2]...[n-1][n])
+				if (word.charAt(j-1) != word.charAt(j)) { // 앞뒤의 알파벳이 같지않을때
+					if (check[word.charAt(j) - 97] == true) { // 이미 나온 알파벳인지 확인
+						--answer; // 그룹단어 개수 -1
+						break;  // 더 이상 확인 할 필요 없음
+					} 
+					check[word.charAt(j-1) - 97] = true; // 아직 나오지 않은 알파벳이면 해당 알파벳의 배열방에 true
 				}
-				System.out.println(cnt);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
-
+		System.out.println(answer); // 그룹단에 개수 출력
 	}
 }
 
 
 // a-z 97-122
-
-
-//public class Baek1157 {
-//	public static void main(String[] args) {
-//		Scanner scan = new Scanner(System.in);
-//		int[] cnt = new int[26];
-//		int max = 0;
-//		char answer = '?';
-//		
-//		String str = scan.next().toUpperCase();
-//		
-//		for (int i = 0; i < str.length(); i++) {
-//			cnt[str.charAt(i)-65]++;
-//			if(max<cnt[str.charAt(i)-65]) {
-//				max = cnt[str.charAt(i)-65];
-//				answer = str.charAt(i);
-//			}
-//			else if(max == cnt[str.charAt(i)-65]) {
-//				answer = '?';
-//			}
-//		}
-//		System.out.println(answer);
-//	}
-//}
