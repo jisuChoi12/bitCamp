@@ -103,7 +103,6 @@ class GameStart extends Frame implements Runnable{
 	private int mx, my;
 	private Button upB, downB, leftB, rightB;
 	private static boolean running;
-	private Thread t;
 	
 	public GameStart() {
 
@@ -126,9 +125,7 @@ class GameStart extends Frame implements Runnable{
 		setBounds(500,150,600,600);
 		setVisible(true);
 		
-		t = new Thread(this);
-		t.start();
-		
+		// windowListener
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -136,21 +133,15 @@ class GameStart extends Frame implements Runnable{
 			}
 		});
 
+		// MouseListener
 		leftB.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if(running=true){
-					mx = -10; 
-					my = 0;
-				} else {
-					running = true;
-					t.start();
-					mx = -10; 
-					my = 0;					
-				}
+				running = true;
+				new Thread(GameStart.this).start();
+				mx = -10; 
+				my = 0;					
 			}
-		});
-		leftB.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				running = false;
@@ -160,18 +151,11 @@ class GameStart extends Frame implements Runnable{
 		rightB.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if(running=true){
-					mx = 10; 
-					my = 0;
-				} else {
-					running = true;
-					t.start();
-					mx = 10; 
-					my = 0;					
-				}
+				running = true;
+				new Thread(GameStart.this).start();
+				mx = 10; 
+				my = 0;					
 			}
-		});
-		rightB.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				running = false;
@@ -182,42 +166,28 @@ class GameStart extends Frame implements Runnable{
 		upB.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				System.out.println("?");
-					running = true;
-					t.resume();
-					my = -10;
-					mx = 0;
+				running = true;
+				new Thread(GameStart.this).start();
+				my = -10;
+				mx = 0;
 			}
-		});
-		upB.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				System.out.println("111="+running);
 				running = false;
-				System.out.println("222="+running);
-				t.stop();
 			}
 		});
 
 		downB.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if(running=true){
-					my = 10;
-					mx = 0;
-				} else {
-					running = true;
-					t.start();
-					my = 10;
-					mx = 0;
-				}
+				running = true;
+				new Thread(GameStart.this).start();
+				my = 10;
+				mx = 0;
 			}
-		});
-		downB.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				running = false;
-				repaint();
 			}
 		});
 	}
@@ -231,7 +201,6 @@ class GameStart extends Frame implements Runnable{
 
 	@Override
 	public void run() {
-		System.out.println(running);
 		while(running) {
 			x = x+mx;
 			y = y+my;
