@@ -25,7 +25,7 @@ class Racer extends Canvas implements Runnable { // canvas는 component -> contai
 	
 		}
 		// 등수체크
-		System.out.println(name+" "+rank);
+		System.out.println(rank+"등: "+name);
 		rank++;
 	}
 
