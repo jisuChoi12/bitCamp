@@ -1,3 +1,5 @@
+package kr.co.bit;
+
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Image;
@@ -160,4 +162,3 @@ class DrCanvas extends Canvas {
 		g.drawImage(bufferImage, 0, 0, this);
 	}
 }
-

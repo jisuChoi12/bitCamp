@@ -1,3 +1,5 @@
+package kr.co.bit;
+
 import java.awt.Container;
 import java.awt.Canvas;
 import java.awt.Color;
