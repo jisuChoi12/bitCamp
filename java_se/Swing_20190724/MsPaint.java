@@ -118,17 +118,16 @@ class MsPaint extends JFrame {
 		});
 
 		can.addMouseMotionListener(new MouseMotionAdapter() {
+			int sw=0;
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				if (getPen().isSelected()) {
-					//x1T.setText(x2T.getText());
-					//y1T.setText(y2T.getText());
+				if (getPen().isSelected()) {			
 					list.add(new ShapeDTO(Integer.parseInt(x1T.getText()), Integer.parseInt(y1T.getText()),
 							Integer.parseInt(x2T.getText()), Integer.parseInt(y2T.getText()),
 							Integer.parseInt(z1T.getText()), Integer.parseInt(z2T.getText()), getFill().isSelected(), 4,
 							getCombo().getSelectedIndex()));
-					x1T.setText(x2T.getText());
-					y1T.setText(y2T.getText());
+					//x1T.setText(x2T.getText());
+					//y1T.setText(y2T.getText());
 				}
 				int x = e.getX();
 				int y = e.getY();

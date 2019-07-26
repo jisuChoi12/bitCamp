@@ -59,6 +59,8 @@ class DrCanvas extends Canvas {
 				break;
 			}
 
+			int sw = 0;
+			
 			// µµÇü
 			if (mp.getList().get(i).getFill()) {
 				if (mp.getList().get(i).getShape() == 0) {
@@ -71,7 +73,14 @@ class DrCanvas extends Canvas {
 					bufferG.fillRoundRect(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1), z1,
 							z2);
 				} else if (mp.getList().get(i).getShape() == 4) {
-					bufferG.drawLine(x1, y1, x2, y2);
+					//if(sw==0) {
+						//bufferG.drawLine(x1, y1, x2, y2);
+					//	sw++;
+					//}
+					//else 
+						bufferG.drawLine(x2,y2,mp.getList().get(i+1).getX2(),mp.getList().get(i+1).getY2());
+						//sw = 0;
+						//bufferG.drawLine(x1, y1, x2, y2);
 				}
 			} else {
 				if (mp.getList().get(i).getShape() == 0) {
@@ -84,7 +93,14 @@ class DrCanvas extends Canvas {
 					bufferG.drawRoundRect(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1), z1,
 							z2);
 				} else if (mp.getList().get(i).getShape() == 4) {
-					bufferG.drawLine(x1, y1, x2, y2);
+					//if(sw==0) {
+						//bufferG.drawLine(x1, y1, x2, y2);
+					//	sw++;
+					//}
+					//else 
+						bufferG.drawLine(x2,y2,mp.getList().get(i+1).getX2(),mp.getList().get(i+1).getY2());
+						//bufferG.drawLine(x1, y1, x2, y2);
+						//sw = 0;
 				}
 			}
 		}

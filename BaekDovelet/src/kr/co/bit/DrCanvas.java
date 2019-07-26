@@ -60,6 +60,25 @@ class DrCanvas extends Canvas {
 				bufferG.setColor(Color.CYAN);
 				break;
 			}
+			// 연필
+			if (mp.getList().get(i).getShape() == 4) {
+				for (int j = 1; j < al1.size(); j++) {
+					if (al1.get(j - 1) != 0 && al2.get(j - 1) != 0) {
+						bufferG.drawLine(al1.get(j - 1), al2.get(j - 1), al1.get(j), al2.get(j));
+					} else if (al1.get(j) == 0 && al2.get(j) == 0) {
+						j++;
+					} 
+				}
+			}
+			
+//			if (mp.getList().get(i).getShape() == 4 && mp.getList().get(i - 1).getShape() == 4
+//					&& mp.getList().get(i).getX1() == mp.getList().get(i - 1).getX1()
+//					&& mp.getList().get(i).getY1() == mp.getList().get(i - 1).getY1()) {
+//
+//				bufferG.drawLine(mp.getList().get(i - 1).getX2(), mp.getList().get(i - 1).getY2(),
+//						mp.getList().get(i).getX2(), mp.getList().get(i).getY2());
+//			}
+
 
 			// 도형
 			if (mp.getList().get(i).getFill()) {
@@ -72,9 +91,7 @@ class DrCanvas extends Canvas {
 				} else if (mp.getList().get(i).getShape() == 3) {
 					bufferG.fillRoundRect(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1), z1,
 							z2);
-				} else if (mp.getList().get(i).getShape() == 4) {
-					bufferG.drawLine(x1, y1, x2, y2);
-				}
+				} 
 			} else {
 				if (mp.getList().get(i).getShape() == 0) {
 					bufferG.drawLine(x1, y1, x2, y2);
@@ -85,9 +102,7 @@ class DrCanvas extends Canvas {
 				} else if (mp.getList().get(i).getShape() == 3) {
 					bufferG.drawRoundRect(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1), z1,
 							z2);
-				} else if (mp.getList().get(i).getShape() == 4) {
-					bufferG.drawLine(x1, y1, x2, y2);
-				}
+				} 
 			}
 		}
 
@@ -120,6 +135,12 @@ class DrCanvas extends Canvas {
 			break;
 		}
 
+		// 연필
+		if (mp.getPen().isSelected()) {
+			al1.add(x2);
+			al2.add(y2);
+		}
+
 		// 도형
 		if (mp.getFill().isSelected()) {
 			if (mp.getLine().isSelected()) {
@@ -133,14 +154,10 @@ class DrCanvas extends Canvas {
 
 			} else if (mp.getRoundRect().isSelected()) {
 				bufferG.fillRoundRect(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1), z1, z2);
-
-			} else if (mp.getPen().isSelected()) { // 연필
-				bufferG.drawLine(x1, y1, x2, y2);
-			}
+			} 
 		} else {
 			if (mp.getLine().isSelected()) {
 				bufferG.drawLine(x1, y1, x2, y2);
-
 			} else if (mp.getCircle().isSelected()) {
 				bufferG.drawOval(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
 
@@ -149,9 +166,6 @@ class DrCanvas extends Canvas {
 
 			} else if (mp.getRoundRect().isSelected()) {
 				bufferG.drawRoundRect(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1), z1, z2);
-
-			} else if (mp.getPen().isSelected()) { // 연필
-				bufferG.drawLine(x1, y1, x2, y2);
 			}
 		}
 		paint(g);

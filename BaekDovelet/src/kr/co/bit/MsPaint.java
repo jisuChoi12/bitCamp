@@ -112,10 +112,20 @@ class MsPaint extends JFrame {
 		can.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				int x = e.getX();
-				int y = e.getY();
-				x1T.setText(Integer.toString(x));
-				y1T.setText(Integer.toString(y));
+				
+				//if(!getPen().isSelected()) {
+					int x = e.getX();
+					int y = e.getY();
+					x1T.setText(Integer.toString(x));
+					y1T.setText(Integer.toString(y));					
+				//} 
+					
+					if(getPen().isSelected()) {
+						can.al1.add(0);
+						can.al2.add(0);
+					}
+					
+
 			}
 		});
 
@@ -123,21 +133,18 @@ class MsPaint extends JFrame {
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				if (getPen().isSelected()) {
-					//x1T.setText(x2T.getText());
-					//y1T.setText(y2T.getText());
 					list.add(new ShapeDTO(Integer.parseInt(x1T.getText()), Integer.parseInt(y1T.getText()),
 							Integer.parseInt(x2T.getText()), Integer.parseInt(y2T.getText()),
 							Integer.parseInt(z1T.getText()), Integer.parseInt(z2T.getText()), getFill().isSelected(), 4,
 							getCombo().getSelectedIndex()));
-					x1T.setText(x2T.getText());
-					y1T.setText(y2T.getText());
 				}
 				int x = e.getX();
 				int y = e.getY();
 				x2T.setText(Integer.toString(x));
 				y2T.setText(Integer.toString(y));
 				can.repaint();
-
+				//can.al1.add(-100);
+				//can.al2.add(-100);
 			}
 		});
 
@@ -163,10 +170,16 @@ class MsPaint extends JFrame {
 				else if (getPen().isSelected()) {
 					shape = 4;
 				}
+				if(!getPen().isSelected()) {
 				list.add(new ShapeDTO(Integer.parseInt(x1T.getText()), Integer.parseInt(y1T.getText()),
 						Integer.parseInt(x2T.getText()), Integer.parseInt(y2T.getText()),
 						Integer.parseInt(z1T.getText()), Integer.parseInt(z2T.getText()), getFill().isSelected(), shape,
-						getCombo().getSelectedIndex()));	
+						getCombo().getSelectedIndex()));
+				}
+//				can.al1.add(Integer.parseInt(x2T.getText()));
+//				can.al2.add(Integer.parseInt(y2T.getText()));
+//				can.al1.add(0);
+//				can.al2.add(0);
 			}
 		});
 	}
