@@ -6,14 +6,11 @@ import java.awt.Image;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.lang.Math;
-import java.util.ArrayList;
 
 class DrCanvas extends Canvas {
 	private MsPaint mp;
 	private Image bufferImage;
 	private Graphics bufferG; // buffer 안에서 그려질 그래픽
-	ArrayList<Integer> al1 = new ArrayList<Integer>(); // x2
-	ArrayList<Integer> al2 = new ArrayList<Integer>(); // y2
 
 	public DrCanvas(MsPaint mp) {
 		setBackground(new Color(255, 255, 255));
@@ -22,6 +19,9 @@ class DrCanvas extends Canvas {
 
 	@Override
 	public void update(Graphics g) { // 메모리에 그림
+		int x1, y1, x2, y2, z1, z2;
+		
+		
 		Dimension d = this.getSize(); // 캔버스의 사각 영역
 		if (bufferG == null) {
 			bufferImage = this.createImage(d.width, d.height);
@@ -33,17 +33,17 @@ class DrCanvas extends Canvas {
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-		// arrayList에 담아놓은 드형을 다시 그려주기
-		for (int i = 0; i < mp.getList().size(); i++) {
-			int x1 = mp.getList().get(i).getX1();
-			int y1 = mp.getList().get(i).getY1();
-			int x2 = mp.getList().get(i).getX2();
-			int y2 = mp.getList().get(i).getY2();
-			int z1 = mp.getList().get(i).getZ1();
-			int z2 = mp.getList().get(i).getZ2();
+		for(ShapeDTO dto : mp.getList()) {
+			// 좌표
+			x1 = dto.getX1();
+			y1 = dto.getY1();
+			x2 = dto.getX2();
+			y2 = dto.getY2();
+			z1 = dto.getZ1();
+			z2 = dto.getZ2();
 
 			// 색
-			switch (mp.getList().get(i).getColor()) { // getSelectedItem()
+			switch (dto.getColor()) {
 			case 0:
 				bufferG.setColor(Color.RED);
 				break;
@@ -60,64 +60,52 @@ class DrCanvas extends Canvas {
 				bufferG.setColor(Color.CYAN);
 				break;
 			}
-			// 연필
-			if (mp.getList().get(i).getShape() == 4) {
-				for (int j = 1; j < al1.size(); j++) {
-					if (al1.get(j - 1) != 0 && al2.get(j - 1) != 0) {
-						bufferG.drawLine(al1.get(j - 1), al2.get(j - 1), al1.get(j), al2.get(j));
-					} else if (al1.get(j) == 0 && al2.get(j) == 0) {
-						j++;
-					} 
+			
+			// 도형
+			if (dto.getFill()) {
+				if (dto.getShape()==Figure.LINE) {
+					bufferG.drawLine(x1, y1, x2, y2);
+	
+				} else if (dto.getShape()==Figure.CIRCLE) {
+					bufferG.fillOval(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
+	
+				} else if (dto.getShape()==Figure.RECT) {
+					bufferG.fillRect(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
+	
+				} else if (dto.getShape()==Figure.ROUNDRECT) {
+					bufferG.fillRoundRect(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1), z1, z2);
+				} else if(dto.getShape()==Figure.PEN) {
+					bufferG.drawLine(x1, y1, x2, y2);
+				}
+			} else {
+				if (dto.getShape()==Figure.LINE) {
+					bufferG.drawLine(x1, y1, x2, y2);
+				} else if (dto.getShape()==Figure.CIRCLE) {
+					bufferG.drawOval(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
+	
+				} else if (dto.getShape()==Figure.RECT) {
+					bufferG.drawRect(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
+	
+				} else if (dto.getShape()==Figure.ROUNDRECT) {
+					bufferG.drawRoundRect(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1), z1, z2);
+				} else if(dto.getShape()==Figure.PEN) {
+					bufferG.drawLine(x1, y1, x2, y2);
 				}
 			}
-			
-//			if (mp.getList().get(i).getShape() == 4 && mp.getList().get(i - 1).getShape() == 4
-//					&& mp.getList().get(i).getX1() == mp.getList().get(i - 1).getX1()
-//					&& mp.getList().get(i).getY1() == mp.getList().get(i - 1).getY1()) {
-//
-//				bufferG.drawLine(mp.getList().get(i - 1).getX2(), mp.getList().get(i - 1).getY2(),
-//						mp.getList().get(i).getX2(), mp.getList().get(i).getY2());
-//			}
-
-
-			// 도형
-			if (mp.getList().get(i).getFill()) {
-				if (mp.getList().get(i).getShape() == 0) {
-					bufferG.drawLine(x1, y1, x2, y2);
-				} else if (mp.getList().get(i).getShape() == 1) {
-					bufferG.fillOval(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
-				} else if (mp.getList().get(i).getShape() == 2) {
-					bufferG.fillRect(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
-				} else if (mp.getList().get(i).getShape() == 3) {
-					bufferG.fillRoundRect(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1), z1,
-							z2);
-				} 
-			} else {
-				if (mp.getList().get(i).getShape() == 0) {
-					bufferG.drawLine(x1, y1, x2, y2);
-				} else if (mp.getList().get(i).getShape() == 1) {
-					bufferG.drawOval(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
-				} else if (mp.getList().get(i).getShape() == 2) {
-					bufferG.drawRect(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
-				} else if (mp.getList().get(i).getShape() == 3) {
-					bufferG.drawRoundRect(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1), z1,
-							z2);
-				} 
-			}
-		}
+		}	
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		// 좌표 - x1T, y1T, x2T, y2T, z1T, z2T
-		int x1 = Integer.parseInt(mp.getX1T().getText());
-		int y1 = Integer.parseInt(mp.getY1T().getText());
-		int x2 = Integer.parseInt(mp.getX2T().getText());
-		int y2 = Integer.parseInt(mp.getY2T().getText());
-		int z1 = Integer.parseInt(mp.getZ1T().getText());
-		int z2 = Integer.parseInt(mp.getZ2T().getText());
+		// 좌표 
+		x1 = Integer.parseInt(mp.getX1T().getText());
+		y1 = Integer.parseInt(mp.getY1T().getText());
+		x2 = Integer.parseInt(mp.getX2T().getText());
+		y2 = Integer.parseInt(mp.getY2T().getText());
+		z1 = Integer.parseInt(mp.getZ1T().getText());
+		z2 = Integer.parseInt(mp.getZ2T().getText());
 
 		// 색
-		switch (mp.getCombo().getSelectedIndex()) { // getSelectedItem()
+		switch (mp.getCombo().getSelectedIndex()) { 
 		case 0:
 			bufferG.setColor(Color.RED);
 			break;
@@ -133,12 +121,6 @@ class DrCanvas extends Canvas {
 		case 4:
 			bufferG.setColor(Color.CYAN);
 			break;
-		}
-
-		// 연필
-		if (mp.getPen().isSelected()) {
-			al1.add(x2);
-			al2.add(y2);
 		}
 
 		// 도형

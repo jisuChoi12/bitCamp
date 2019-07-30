@@ -29,9 +29,8 @@ class MsPaint extends JFrame {
 	private JComboBox<String> combo;
 	private JButton drawB;
 	private DrCanvas can;
+	private ArrayList<ShapeDTO> list;
 
-	ArrayList<ShapeDTO> list = new ArrayList<ShapeDTO>();
-	
 	public MsPaint() {
 		x1L = new JLabel("x1");
 		y1L = new JLabel("y1");
@@ -66,6 +65,7 @@ class MsPaint extends JFrame {
 		drawB = new JButton("draw");
 
 		can = new DrCanvas(this);
+		list = new ArrayList<ShapeDTO>();
 
 		JPanel p1 = new JPanel();
 		p1.add(x1L);
@@ -112,74 +112,48 @@ class MsPaint extends JFrame {
 		can.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				
-				//if(!getPen().isSelected()) {
-					int x = e.getX();
-					int y = e.getY();
-					x1T.setText(Integer.toString(x));
-					y1T.setText(Integer.toString(y));					
-				//} 
-					
-					if(getPen().isSelected()) {
-						can.al1.add(0);
-						can.al2.add(0);
-					}
-					
+				int x = e.getX();
+				int y = e.getY();
+				x1T.setText(Integer.toString(x));
+				y1T.setText(Integer.toString(y));
+			}
 
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				Figure shape = Figure.LINE;
+				if (line.isSelected()) {
+					shape = Figure.LINE;
+				} else if (circle.isSelected()) {
+					shape = Figure.CIRCLE;
+				} else if (rect.isSelected()) {
+					shape = Figure.RECT;
+				} else if (roundRect.isSelected()) {
+					shape = Figure.ROUNDRECT;
+				}
+				list.add(new ShapeDTO(Integer.parseInt(x1T.getText()), Integer.parseInt(y1T.getText()),
+						Integer.parseInt(x2T.getText()), Integer.parseInt(y2T.getText()),
+						Integer.parseInt(z1T.getText()), Integer.parseInt(z2T.getText()), fill.isSelected(), shape,
+						combo.getSelectedIndex()));
 			}
 		});
 
 		can.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				if (getPen().isSelected()) {
+				int x = e.getX();
+				int y = e.getY();
+				x2T.setText(Integer.toString(x));
+				y2T.setText(Integer.toString(y));
+				can.repaint();
+				// ¿¬ÇÊ
+				if (pen.isSelected()) {
 					list.add(new ShapeDTO(Integer.parseInt(x1T.getText()), Integer.parseInt(y1T.getText()),
 							Integer.parseInt(x2T.getText()), Integer.parseInt(y2T.getText()),
-							Integer.parseInt(z1T.getText()), Integer.parseInt(z2T.getText()), getFill().isSelected(), 4,
-							getCombo().getSelectedIndex()));
+							Integer.parseInt(z1T.getText()), Integer.parseInt(z2T.getText()), fill.isSelected(),
+							Figure.PEN, combo.getSelectedIndex()));
+					x1T.setText(x2T.getText());
+					y1T.setText(y2T.getText());
 				}
-				int x = e.getX();
-				int y = e.getY();
-				x2T.setText(Integer.toString(x));
-				y2T.setText(Integer.toString(y));
-				can.repaint();
-				//can.al1.add(-100);
-				//can.al2.add(-100);
-			}
-		});
-
-		can.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				int shape = -100;
-				int x = e.getX();
-				int y = e.getY();
-				x2T.setText(Integer.toString(x));
-				y2T.setText(Integer.toString(y));
-				can.repaint();
-
-				if (getLine().isSelected()) {
-					shape = 0;
-				} else if (getCircle().isSelected()) {
-					shape = 1;
-				} else if (getRect().isSelected()) {
-					shape = 2;
-				} else if (getRoundRect().isSelected()) {
-					shape = 3;
-				} 
-				else if (getPen().isSelected()) {
-					shape = 4;
-				}
-				if(!getPen().isSelected()) {
-				list.add(new ShapeDTO(Integer.parseInt(x1T.getText()), Integer.parseInt(y1T.getText()),
-						Integer.parseInt(x2T.getText()), Integer.parseInt(y2T.getText()),
-						Integer.parseInt(z1T.getText()), Integer.parseInt(z2T.getText()), getFill().isSelected(), shape,
-						getCombo().getSelectedIndex()));
-				}
-//				can.al1.add(Integer.parseInt(x2T.getText()));
-//				can.al2.add(Integer.parseInt(y2T.getText()));
-//				can.al1.add(0);
-//				can.al2.add(0);
 			}
 		});
 	}

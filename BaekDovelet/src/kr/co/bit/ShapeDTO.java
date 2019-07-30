@@ -1,10 +1,9 @@
 package kr.co.bit;
 
-/*
+
 enum Figure{
 	LINE,CIRCLE,RECT,ROUNDRECT,PEN
 }
-*/
 
 class ShapeDTO {
 	private int x1;
@@ -14,10 +13,10 @@ class ShapeDTO {
 	private int z1;
 	private int z2;
 	private boolean fill;
-	private int shape;
+	private Figure shape;
 	private int color;
 
-	public ShapeDTO(int x1, int y1, int x2, int y2, int z1, int z2, boolean fill, int shape, int color) {
+	public ShapeDTO(int x1, int y1, int x2, int y2, int z1, int z2, boolean fill, Figure shape, int color) {
 		this.x1 = x1;
 		this.y1 = y1;
 		this.x2 = x2;
@@ -57,7 +56,7 @@ class ShapeDTO {
 		return fill;
 	}
 
-	public int getShape() {
+	public Figure getShape() {
 		return shape;
 	}
 

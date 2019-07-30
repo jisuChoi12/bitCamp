@@ -39,6 +39,7 @@ class ChatClient extends JFrame {
 		con.add("Center", scroll);
 		con.add("South",panel);
 
+		setTitle("√§∆√√¢");
 		setBounds(300, 300, 300, 300);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
