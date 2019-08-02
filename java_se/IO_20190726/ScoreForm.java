@@ -68,8 +68,8 @@ class ScoreForm extends JFrame implements ActionListener {
 		panelB.add(saveB);
 		panelB.add(loadB);
 		
-		Border border = BorderFactory.createLineBorder(Color.GRAY);
-		area.setBorder(BorderFactory.createCompoundBorder(border, BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+		
+		area.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.GRAY), BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 		
 		JPanel panelPP = new JPanel(new GridLayout(1,2,0,0));
 		panelPP.add(panelLT);
